@@ -3,7 +3,7 @@ import { createNewNumbers, CREATE_NEW_NUMBERS } from '../actions/lottoNumbers';
 type LottoNumbersAction = ReturnType<typeof createNewNumbers>;
 type LottoNumbersState = {
     currentNumber: number[];
-    history: { date: Date; numbers: number[] }[];
+    history: { date: string; numbers: number[] }[];
 };
 
 const defaultState: LottoNumbersState = {
@@ -13,12 +13,16 @@ const defaultState: LottoNumbersState = {
 
 export const lottoNumberReducers = (state = defaultState, action: LottoNumbersAction) => {
     if (action.type === CREATE_NEW_NUMBERS) {
+        const date = new Date();
+
         return {
             ...state,
             currentNumber: action.numbers,
             history: state.history.concat([
                 {
-                    date: new Date(),
+                    date: `${date.getFullYear()}. ${
+                        date.getMonth() + 1
+                    }. ${date.getDate()} ${date.getHours()}:${date.getMinutes()}`,
                     numbers: action.numbers,
                 },
             ]),
