@@ -2,11 +2,13 @@ import React, { useCallback } from 'react';
 import { View } from 'react-native';
 import { Button } from '../components/Button';
 import { Header } from '../components/Header/Header';
+import { LottoNumberView } from '../components/LottoNumberView';
 import { Spacer } from '../components/Spacer';
 import { Typography } from '../components/Typography';
 
 export const HomeScreen = () => {
     const onPressGetNumber = useCallback(() => {}, []);
+
     return (
         <View style={{ flex: 1 }}>
             <Header>
@@ -27,32 +29,7 @@ export const HomeScreen = () => {
                         backgroundColor: 'white',
                         borderColor: 'gray',
                     }}>
-                    <View
-                        style={{
-                            flex: 1,
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                        }}>
-                        {[1, 2, 3, 4, 5].map(item => {
-                            return (
-                                <View
-                                    key={`lotto-${item}`}
-                                    style={{
-                                        backgroundColor: 'black',
-                                        width: 40,
-                                        height: 40,
-                                        borderRadius: 20,
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                    }}>
-                                    <Typography fontSize={20} color="white">
-                                        {item}
-                                    </Typography>
-                                </View>
-                            );
-                        })}
-                    </View>
+                    <LottoNumberView numbers={[1, 2, 3, 4, 5, 6]} />
                 </View>
                 <Spacer space={20} />
                 <Button onPress={onPressGetNumber}>
