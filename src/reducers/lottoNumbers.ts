@@ -1,6 +1,6 @@
 import { createNewNumbers, CREATE_NEW_NUMBERS } from '../actions/lottoNumbers';
 
-type LottoNumbersAction = ReturnType<typeof createNewNumbers>;
+export type LottoNumbersAction = ReturnType<typeof createNewNumbers>;
 type LottoNumbersState = {
     currentNumber: number[];
     history: { date: string; numbers: number[] }[];
