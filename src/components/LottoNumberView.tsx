@@ -1,8 +1,14 @@
-import React, { useCallback } from 'react';
-import { View } from 'react-native';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
+import { View, Animated } from 'react-native';
 import { Typography } from './Typography';
 
 export const LottoNumberView = ({ numbers }: { numbers: number[] }) => {
+    const [viewHeight, setViewHeight] = useState(0);
+    const animatedValue = useRef(new Animated.Value(1)).current;
+    const translateY = animatedValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: [-viewHeight * 0.6, 0],
+    });
     const getNumberBackgroundColor = useCallback(() => {
         const randomNumber = Math.floor(Math.random() * 10) % 6;
         switch (randomNumber) {
@@ -21,6 +27,15 @@ export const LottoNumberView = ({ numbers }: { numbers: number[] }) => {
         }
     }, []);
 
+    useEffect(() => {
+        animatedValue.setValue(0);
+        Animated.timing(animatedValue, {
+            duration: 1000,
+            toValue: 1,
+            useNativeDriver: true,
+        }).start();
+    }, [animatedValue, numbers]);
+
     return (
         <View
             style={{
@@ -28,10 +43,14 @@ export const LottoNumberView = ({ numbers }: { numbers: number[] }) => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'space-between',
+                overflow: 'hidden',
+            }}
+            onLayout={({ nativeEvent }) => {
+                setViewHeight(nativeEvent.layout.height);
             }}>
             {numbers.map(item => {
                 return (
-                    <View
+                    <Animated.View
                         key={`lotto-${item}`}
                         style={{
                             backgroundColor: getNumberBackgroundColor(),
@@ -40,11 +59,12 @@ export const LottoNumberView = ({ numbers }: { numbers: number[] }) => {
                             borderRadius: 20,
                             alignItems: 'center',
                             justifyContent: 'center',
+                            transform: [{ translateY: translateY }],
                         }}>
                         <Typography fontSize={20} color="white">
                             {item}
                         </Typography>
-                    </View>
+                    </Animated.View>
                 );
             })}
         </View>
