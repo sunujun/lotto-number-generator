@@ -1,28 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
 import { Header } from '../components/Header/Header';
 import { LottoNumberView } from '../components/LottoNumberView';
 import { Typography } from '../components/Typography';
+import { RootState } from '../store/store';
 
 export const HistoryListScreen = () => {
-    const [history] = useState([
-        {
-            date: new Date(),
-            numbers: [1, 2, 3, 4, 5, 6],
-        },
-        {
-            date: new Date(),
-            numbers: [1, 2, 3, 4, 5, 6],
-        },
-        {
-            date: new Date(),
-            numbers: [1, 2, 3, 4, 5, 6],
-        },
-        {
-            date: new Date(),
-            numbers: [1, 2, 3, 4, 5, 6],
-        },
-    ]);
+    const history = useSelector((state: RootState) => state.numbers.history);
 
     return (
         <View style={{ flex: 1 }}>
@@ -47,7 +32,7 @@ export const HistoryListScreen = () => {
                                 backgroundColor: 'white',
                             }}>
                             <Typography fontSize={16}>
-                                {item.date.getFullYear()}. {item.date.getMonth()}. {item.date.getDay()}
+                                {item.date.getFullYear()}. {item.date.getMonth() + 1}. {item.date.getDate()}
                             </Typography>
                             <LottoNumberView numbers={item.numbers} />
                         </View>
