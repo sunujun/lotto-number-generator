@@ -1,13 +1,18 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { Button } from '../components/Button';
 import { Header } from '../components/Header/Header';
 import { LottoNumberView } from '../components/LottoNumberView';
 import { Spacer } from '../components/Spacer';
 import { Typography } from '../components/Typography';
+import { getRandomSixNumber } from '../utils/Utils';
 
 export const HomeScreen = () => {
-    const onPressGetNumber = useCallback(() => {}, []);
+    const [numbers, setNumbers] = useState<number[]>([]);
+    const onPressGetNumber = useCallback(() => {
+        const randomNumbers = getRandomSixNumber();
+        setNumbers(randomNumbers);
+    }, []);
 
     return (
         <View style={{ flex: 1 }}>
@@ -29,7 +34,7 @@ export const HomeScreen = () => {
                         backgroundColor: 'white',
                         borderColor: 'gray',
                     }}>
-                    <LottoNumberView numbers={[1, 2, 3, 4, 5, 6]} />
+                    {numbers.length === 6 && <LottoNumberView numbers={numbers} />}
                 </View>
                 <Spacer space={20} />
                 <Button onPress={onPressGetNumber}>
